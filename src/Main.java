@@ -36,7 +36,7 @@ public class Main {
             SecretKey clau = new SecretKeySpec(key, "AES");
 
 
-            // Lee el contenido del archivo
+            // Crea un array de bytes del tamaño del archivo y almacena ahi el archivo leyendolo
             byte[] bytesOriginal = new byte[archivo.available()];
             archivo.read(bytesOriginal);
 
@@ -48,6 +48,7 @@ public class Main {
 
             boolean cifrar = cifrarDescifrar(rutaArchivo);
             if (!cifrar) {
+                System.out.println("Entrando en modo cifrado...");
                 cifrar(cipher, clau, rutaArchivo, bytesOriginal);
 
             } else {
@@ -81,11 +82,12 @@ public class Main {
     }
 
     public static void cifrar(Cipher cipher, SecretKey clau, String rutaArchivo, byte[] bytesOriginal) throws Exception {
-        System.out.println("Entrando en modo cifrado...");
-
         cipher.init(Cipher.ENCRYPT_MODE, clau);
 
+        // Cifrar el archivo
         byte[] bytesCifrados = cipher.doFinal(bytesOriginal);
+
+        //Guardar el archivo cifrado
         String archivoCifrado = rutaArchivo + ".aes";
         FileOutputStream archivoSalida = new FileOutputStream(archivoCifrado);
         archivoSalida.write(bytesCifrados);
