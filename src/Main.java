@@ -92,7 +92,7 @@ public class Main {
         archivoSalida.close();
 
         System.out.println("Archivo cifrado con éxito en: " + archivoCifrado);
-        System.out.println("El contenido cifrado es: " + bytesCifrados);
+        System.out.println("El contenido cifrado es: " + new String(bytesCifrados, "UTF-8"));
     }
 
     public static void descifrar(Cipher cipher, SecretKey clau, String rutaArchivo, byte[] bytesOriginal) throws Exception {
