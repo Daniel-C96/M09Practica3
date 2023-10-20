@@ -95,6 +95,8 @@ public class Main {
 
         System.out.println("Archivo cifrado con éxito en: " + archivoCifrado);
         System.out.println("El contenido cifrado es: " + new String(bytesCifrados, "UTF-8"));
+
+        sobreescribirBorrar(bytesOriginal, rutaArchivo);
     }
 
     public static void descifrar(Cipher cipher, SecretKey clau, String rutaArchivo, byte[] bytesOriginal) throws Exception {
@@ -111,5 +113,22 @@ public class Main {
 
         System.out.println("Archivo descifrado con éxito en: " + archivoDescifrado);
         System.out.println("El contenido descifrado es: " + new String(bytesDescifrados, "UTF-8"));
+
+        sobreescribirBorrar(bytesOriginal, rutaArchivo);
+    }
+
+    public static void sobreescribirBorrar(byte[] bytesOriginal, String rutaArchivo) throws Exception {
+        // Sobreescribir con 0s el archivo original
+        Arrays.fill(bytesOriginal, (byte) 0);
+        FileOutputStream archivoOriginalSalida = new FileOutputStream(rutaArchivo);
+        archivoOriginalSalida.write(bytesOriginal);
+        archivoOriginalSalida.close();
+
+        //Eliminar archivo original
+        File archivoOriginal = new File(rutaArchivo);
+        archivoOriginal.delete();
+
+        System.out.println("El archivo original se ha sobreescrito con 0s y borrado del sistema...");
+
     }
 }
