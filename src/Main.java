@@ -8,10 +8,11 @@ import java.util.Scanner;
 public class Main {
     static final Scanner input = new Scanner(System.in);
     static final int KEY_LENGTH = 192; // Tamaño de la clave en bits
+    static String rutaArchivo = "";
 
     public static void main(String[] args) {
         System.out.println("Escribe la ruta del fichero:");
-        String rutaArchivo = input.nextLine();
+        rutaArchivo = input.nextLine();
 
         FileInputStream archivo = buscarArchivoExistente(rutaArchivo);
 
@@ -45,14 +46,15 @@ public class Main {
         }
     }
 
-    public static FileInputStream buscarArchivoExistente(String rutaArchivo) {
+    public static FileInputStream buscarArchivoExistente(String ruta) {
         FileInputStream archivo = null;
         while (archivo == null) {
             try {
-                archivo = new FileInputStream(rutaArchivo);
+                archivo = new FileInputStream(ruta);
+                rutaArchivo = ruta;
             } catch (FileNotFoundException ex) {
                 System.out.println("Archivo no encontrado... Escribe uno valido");
-                rutaArchivo = input.nextLine();
+                ruta = input.nextLine();
             }
         }
         return archivo;
