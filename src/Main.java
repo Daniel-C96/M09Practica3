@@ -46,17 +46,15 @@ public class Main {
             //Generar Cipher
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
-            boolean cifrar = cifrarDescifrar(rutaArchivo);
-            if (!cifrar) {
+            if (!rutaArchivo.endsWith(".aes")) {
                 System.out.println("Entrando en modo cifrado...");
                 cifrar(cipher, clau, rutaArchivo, bytesOriginal);
-
+                sobreescribirBorrar(bytesOriginal, rutaArchivo);
             } else {
                 System.out.println("Entrando en modo descifrado...");
-
                 try {
                     descifrar(cipher, clau, rutaArchivo, bytesOriginal);
-
+                    sobreescribirBorrar(bytesOriginal, rutaArchivo);
                 } catch (Exception e) {
                     System.out.print("La contraseña que has introducido no es correcta...");
                 }
@@ -65,11 +63,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean cifrarDescifrar(String archivoNombre) {
-
-        return archivoNombre.endsWith(".aes");
     }
 
     public static void cifrar(Cipher cipher, SecretKey clau, String rutaArchivo, byte[] bytesOriginal) throws Exception {
@@ -87,7 +80,6 @@ public class Main {
         System.out.println("Archivo cifrado con éxito en: " + archivoCifrado);
         System.out.println("El contenido cifrado es: " + new String(bytesCifrados, "UTF-8"));
 
-        sobreescribirBorrar(bytesOriginal, rutaArchivo);
     }
 
     public static void descifrar(Cipher cipher, SecretKey clau, String rutaArchivo, byte[] bytesOriginal) throws Exception {
@@ -105,7 +97,6 @@ public class Main {
         System.out.println("Archivo descifrado con éxito en: " + archivoDescifrado);
         System.out.println("El contenido descifrado es: " + new String(bytesDescifrados, "UTF-8"));
 
-        sobreescribirBorrar(bytesOriginal, rutaArchivo);
     }
 
     public static void sobreescribirBorrar(byte[] bytesOriginal, String rutaArchivo) throws Exception {
