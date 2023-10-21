@@ -18,7 +18,7 @@ public class Main {
         FileInputStream archivo = null;
         while (archivo == null) {
             try {
-                archivo = leerArchivo(rutaArchivo);
+                archivo = new FileInputStream(rutaArchivo);
             } catch (Exception FileNotFoundException) {
                 System.out.println("Archivo no encontrado... Escribe uno valido");
                 rutaArchivo = input.nextLine();
@@ -27,7 +27,7 @@ public class Main {
         }
         try {
             //Contraseña y clave simetrica por teclado
-            System.out.println("Introduce una contraseña:");
+            System.out.println("Introduce la contraseña:");
             String password = input.nextLine();
             byte[] data = password.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -66,15 +66,6 @@ public class Main {
             e.printStackTrace();
         }
     }
-
-
-    public static FileInputStream leerArchivo(String rutaArchivo) throws FileNotFoundException {
-
-        // Crea un objeto File con la ruta del archivo
-        FileInputStream in = new FileInputStream(rutaArchivo);
-        return in;
-    }
-
 
     public static boolean cifrarDescifrar(String archivoNombre) {
 
