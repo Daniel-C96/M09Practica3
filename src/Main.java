@@ -16,35 +16,34 @@ public class Main {
 
         FileInputStream archivo = buscarArchivoExistente(rutaArchivo);
 
-        if (archivo != null) {
-            try {
-                String password = obtenerPassword();
-                byte[] key = generarClaveDesdePassword(password);
-                SecretKey clave = new SecretKeySpec(key, "AES");
+        try {
+            String password = obtenerPassword();
+            byte[] key = generarClaveDesdePassword(password);
+            SecretKey clave = new SecretKeySpec(key, "AES");
 
-                byte[] bytesOriginal = leerArchivo(archivo);
-                System.out.println("Contenido del archivo es: " + new String(bytesOriginal, "UTF-8"));
+            byte[] bytesOriginal = leerArchivo(archivo);
+            System.out.println("Contenido del archivo es: " + new String(bytesOriginal, "UTF-8"));
 
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 
-                if (!rutaArchivo.endsWith(".aes")) {
-                    System.out.println("Entrando en modo cifrado...");
+            if (rutaArchivo.endsWith(".aes")) {
+                System.out.println("Entrando en modo descifrado...");
+                descifrarYGuardarArchivo(cipher, clave, rutaArchivo, bytesOriginal);
+                sobreescribirYBorrarArchivo(bytesOriginal, rutaArchivo);
+            } else {
+                System.out.println("Entrando en modo cifrado...");
+                try {
                     cifrarYGuardarArchivo(cipher, clave, rutaArchivo, bytesOriginal);
                     sobreescribirYBorrarArchivo(bytesOriginal, rutaArchivo);
-                } else {
-                    System.out.println("Entrando en modo descifrado...");
-                    try {
-                        descifrarYGuardarArchivo(cipher, clave, rutaArchivo, bytesOriginal);
-                        sobreescribirYBorrarArchivo(bytesOriginal, rutaArchivo);
-                    } catch (Exception e) {
-                        System.out.print("La contraseña que has introducido no es correcta...");
-                    }
+                } catch (Exception e) {
+                    System.out.print("La contraseña que has introducido no es correcta...");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     public static FileInputStream buscarArchivoExistente(String ruta) {
         FileInputStream archivo = null;
